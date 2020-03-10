@@ -1,0 +1,3 @@
+-r ./base.txt
+
+jupyterlab==2.0.0
