@@ -1,9 +1,9 @@
 from fastapi import APIRouter
-from starlette.responses import Response, JSONResponse
+from starlette.responses import Response, JSONResponse, UJSONResponse
 
 router = APIRouter()
 
 
-@router.get('/')
+@router.get('/', response_class=UJSONResponse)
 async def echo():
     return {"message": "ok"}

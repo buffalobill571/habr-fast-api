@@ -2,6 +2,7 @@ from typing import List
 
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
+from starlette.responses import UJSONResponse
 
 from app import crud
 from app.api.utils.db import get_db
@@ -12,7 +13,7 @@ from app.schemas.post import Post
 router = APIRouter()
 
 
-@router.get("/", response_model=List[Post])
+@router.get("/", response_model=List[Post], response_class=UJSONResponse)
 def list_posts(
     db: Session = Depends(get_db),
     skip: int = 0,
@@ -22,9 +23,12 @@ def list_posts(
     return posts
 
 
-@router.get("/{post_id}", response_model=Post, responses={
-    404: {"model": NotFoundSchema}
-})
+@router.get("/{post_id}/",
+            response_model=Post,
+            responses={
+                404: {"model": NotFoundSchema}
+            },
+            response_class=UJSONResponse)
 def get_post(
     post_id: int,
     db: Session = Depends(get_db)
